@@ -31,4 +31,5 @@
 > - *就労継続支援B型事業所を開所*
 
 ## リンク
-[Demo1](/demo1)
+- [Demo1](/demo1)
+- [Jiyuujizai](/jiyuujizai)
