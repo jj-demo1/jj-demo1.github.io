@@ -33,4 +33,5 @@
 ## リンク
 - [Demo1](/demo1)
 - [Jiyuujizai](/jiyuujizai)
-- <a href="./jiyuujizai" target="_blank">Jiyuujizai 別タブで開くリンク</a>
+- <a href="/jiyuujizai" target="_blank">Jiyuujizai 別タブで開くリンク</a>
+- [Google検索](https://www.google.com "世界最大の検索エンジン")
