@@ -33,3 +33,4 @@
 ## リンク
 - [Demo1](/demo1)
 - [Jiyuujizai](/jiyuujizai)
+- <a href="./jiyuujizai" target="_blank">Jiyuujizai 別タブで開くリンク</a>
