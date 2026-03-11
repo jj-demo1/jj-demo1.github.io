@@ -11,8 +11,9 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
   <link href="./assets/css/style.css" rel="stylesheet" />
 
-  <meta itemprop="jj:root" content='{"update":"20260303","scrollBehavior":"true"}' />
-  <meta itemprop="jj:navbar" content='{"useFixed":"true"}' />
+  <meta itemprop="jj:root" content='{"update":"20260303","scrollBehavior":true}' />
+  <meta itemprop="jj:animate" content='{"use":false,"duration":2000}' />
+  <meta itemprop="jj:navbar" content='{"useFixed":true}' />
 
 
 <!--
@@ -46,6 +47,33 @@
 
 </head>
 <body id="home">
+
+
+<div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle z-1">
+  <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center text-bg-primary" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)">
+    <i class="bi bi-circle-half"></i> <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
+    <li>
+      <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="true">
+        <i class="bi bi-sun me-1"></i> Light
+      </button>
+    </li>
+    <li>
+      <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+        <i class="bi bi-moon-stars-fill me-1"></i> Dark
+      </button>
+    </li>
+    <li>
+      <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="false">
+        <i class="bi bi-circle-half me-1"></i> Auto<div class="ps-5 ms-auto"><i class="bi bi-check ms-auto"></i></div>
+      </button>
+    </li>
+  </ul>
+</div>
+
+
+
   <!-- header#jj-headers -->
   <header id="jj-headers">
     <!-- #jj-header-top -->
@@ -70,7 +98,7 @@
         <div class="container">
           <a class="navbar-brand py-0" href="#">
             <h2 class="col fs-4 mb-0">
-              <span>JIYUU JIZAI：PORTFOLIO</span>
+              <span>じゆうじざい：ポートフォリオ</span>
             </h2>
           </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#jj-navbarCollapse" aria-controls="jj-navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -81,6 +109,32 @@
               <li class="nav-item"><a class="nav-link" href="#skills"><i class="bi bi-tools me-1"></i>Skills</a></li>
               <li class="nav-item"><a class="nav-link" href="#about"><i class="bi bi-person-fill-gear me-1"></i>About</a></li>
               <li class="nav-item"><a class="nav-link" href="#contact"><i class="bi bi-send-fill me-1"></i>Contact</a></li>
+
+
+<!--
+<li class="nav-item py-2 py-lg-1 col-12 col-lg-auto"> <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-black"></div> <hr class="d-lg-none my-2 text-black-50"> </li>
+
+<li class="nav-item dropdown">
+<button class="btn btn-link nav-link px-0 px-lg-2 py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (auto)">
+<i class="bi bi-circle-half"></i>
+<span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+</button>
+<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+<li> <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+<i class="bi bi-sun"></i> Light
+<svg class="bi ms-auto d-none" aria-hidden="true"><use href="#check2"></use></svg> </button>
+</li>
+<li> <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+<i class="bi bi-moon-stars-fill"></i> Dark
+</button> </li>
+<li> <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="true">
+<i class="bi bi-circle-half"></i> Auto
+<svg class="bi ms-auto d-none" aria-hidden="true"><use href="#check2"></use></svg> </button> </li>
+ </ul> </li>
+-->
+
+
+
             </ul>
           </div>
         </div>
@@ -92,19 +146,42 @@
 
   <!-- #jj-main -->
   <main id="jj-main">
-    <div class="mv">
-      <div class="mv-container">
-        <p class="mv-title">JIYUU JIZAI</p>
-        <p class="mv-subtitle">PORTFOLIO</p>
+    <section class="mv section">
+      <div class="container d-md-block text-bg-dark opacity-75 rounded">
+        <h2 class="mv-title">じゆうじざい</h2>
+        <h3 class="mv-subtitle">ポートフォリオ</h3>
+<!--
         <p class="mv-text">
           ユーザーとお客様が心から満足できる<br class="sp-only">サイトをお作りいたします。<br>
           デザインとコーディングは<br class="sp-only">おまかせください。<br>
         </p>
+-->
+
+        <p>
+          ユーザーの視点に立ってかんがえる<br />
+          思いやりと使いやすさを追求したものづくりをこころがけています
+        </p>
+
+<!--
+<div class="carousel-caption d-md-block text-bg-light opacity-75 rounded">
+                        <h5>作業内容</h5>
+                        <div class="d-flex justify-content-center">
+                            <ul class="text-start">
+                                <li>Webサイト制作、プログラミング</li>
+                                <li>データ入力、画像編集・動画作成</li>
+                            </ul>
+                        </div>
+                    </div>
+-->
+
+
+
       </div>
-    </div>
+    </section>
+
 
     <!-- Works -->
-    <section id="works" class="section py-5">
+    <section id="works" class="section">
       <div class="section-title mt-4 py-3 px-0 text-center">
         <h2 class="fw-bold"><i class="bi bi-gear-fill me-2"></i>Works</h2>
       </div>
@@ -157,9 +234,8 @@
     </section>
     <!-- /Works -->
 
-
     <!-- Skills -->
-    <section id="skills" class="section py-5">
+    <section id="skills" class="section">
       <div class="section-title mt-4 py-3 px-0 text-center">
         <h2 class="fw-bold my-2"><i class="bi bi-tools me-2"></i>Skills</h2>
       </div>
@@ -225,7 +301,7 @@
     <!-- /Skills -->
 
     <!-- About -->
-    <section id="about" class="section py-5">
+    <section id="about" class="section">
       <div class="section-title mt-4 py-3 px-0 text-center">
         <h2 class="fw-bold my-2"><i class="bi bi-person-fill-gear me-2"></i>About</h2>
       </div>
@@ -245,8 +321,6 @@
       </div>
     </section>
     <!-- /Contact -->
-
-<div class="py-5"><a href="#home">HOME</a></div>
 
     <div class="d-grid gap-2">
       <a href="#" class="page-top text-center text-bg-dark p-2 text-decoration-none" title="ページトップへもどる">
