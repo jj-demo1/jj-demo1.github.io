@@ -6,15 +6,31 @@
  */
 const $cfg = {
   'root': {
+		// 更新日時 string
     'update': ''
-    ,'scrollBehavior': "false"
+    // スクロールの振る舞い string ["true"|"false"|"auto"]
+    ,'scrollBehavior': true
   }
   ,
+  //
+  'animate': {
+		'use': false
+    // アニメーションの再生時間
+    ,'duration': 1000
+    // アニメーションが変化する速度やタイミング
+    ,'easing': "linear"
+  }
+  ,
+  // ナビバー
   'navbar': {
+		// セレクター string
     'selector': '#jj-navbar'
+    // collapseセレクター string
     ,'collapseSelector': '#jj-navbarCollapse'
-    ,'useFixed': "false"
-    ,'minWidth': 300
+    // 固定化 string 
+    ,'useFixed': true
+    // スマホ等でメニュー崩れ対策(確保する最小限の幅)
+    ,'minWidth': 320
   }
 };
 
@@ -33,8 +49,8 @@ const $setting = {
 	// ナビバー要素の高さ
 	,'navbar_height': 0
 
-	,'scrollBehavior': null
-	,'isDarkMode': false
+	//,'scrollBehavior': true
+	//,'isDarkMode': false
 
 };
 
@@ -106,7 +122,7 @@ jQuery(function() {
 
 
   // 指定のポジションへスクロール
-  jj_positionScroll($setting.location_hash);
+  jj_positionScroll($setting.location_hash, true);
 
 	// ナビバー 固定化
 	jj_navbarFixed($setting);
@@ -116,6 +132,7 @@ jQuery(function() {
 	//$('html').css('scrollBehavior', "unset");
 	//$('html').css('scrollBehavior', "smooth");
 
+	/*
 	// true=["smooth"|"true"] false=その他
 	if ($cfg.root.scrollBehavior) {
 		switch ($cfg.root.scrollBehavior) {
@@ -127,6 +144,16 @@ jQuery(function() {
 	}
 
 	if ($setting.scrollBehavior) {
+		$('html').css('scrollBehavior', $setting.scrollBehavior);
+	}
+	*/
+
+	// scroll-behavior 設定
+	if ($cfg.root.scrollBehavior !== true) {
+		$setting.scrollBehavior = "auto";
+	}
+
+	if ($setting.scrollBehavior && $setting.scrollBehavior != $('html').css('scrollBehavior')) {
 		$('html').css('scrollBehavior', $setting.scrollBehavior);
 	}
 
@@ -142,6 +169,9 @@ jj_themeToggle();
 	// アンカーリンク クリック
 	$('a[href^="#"]').click(function(){
 		jj_positionScroll($(this).attr("href"));
+
+    // ナビバーメニューを閉じる
+    jj_navbarClose();
 	});
 
 
@@ -177,7 +207,7 @@ jj_themeToggle();
   // ナビバー リンクをクリック
   $($setting.navbar_selector).on('click', function() {
     // ナビバーメニューを閉じる
-    jj_navbarClose();
+    //jj_navbarClose();
   });
 
   // ページトップへもどる
@@ -218,6 +248,140 @@ console.log( $cfg );
 console.log( $setting );
 
 });
+
+
+
+/**
+ * 指定の位置(#ID)へスクロール
+ * @param string _id 例:#works
+ */
+function jj_positionScroll(_id = null, _animate = false) {
+	if ( ! _id) return false;
+
+	let position = 0;
+	let animate = false;
+
+//console.log( 'position=' + position + '; $cfg.root.scrollBehavior=' + $cfg.root.scrollBehavior + '; $setting.scrollBehavior=' + $setting.scrollBehavior );
+
+  // ハッシュ(#)だけの場合は 0 のポジション
+	if (_id == "#") {
+		position = 0;
+	}
+  // 要素が実際に存在するか確認
+  else if ($(_id).length) {
+    // 要素の画面上部からの座標(px)を取得
+    position = $(_id).offset().top;
+
+//console.log("座標: " + targetPosition + "px");
+
+    // 固定ナビバーの高さ分を調整
+    if ($setting.navbar_height > 0) {
+      position -= $setting.navbar_height;
+    }
+
+//console.log("座標: " + position + "px");
+  }
+
+//console.log('position=' + position);
+
+	let navbarCollapseShowHeight = 0;
+
+	if (position > 0) {
+		// スマホ幅＆ナビバー非固定位置の場合
+		if (isSpWidth() == true && isNavbarFixed() == false) {
+//console.log( 'isSpWidth()=yes' );
+			navbarCollapseShowHeight = jj_navbarCollapseShowHeight();
+			//navbarCollapseShowHeight -= $setting.navbar_height;
+
+//console.log( 'navbarCollapseShowHeight=' + navbarCollapseShowHeight);
+//navbarCollapseShowHeight = 0;
+//$('html').css('scrollPaddingTop', "280px");
+		}
+		else if (isSpWidth() == false) {
+			navbarCollapseShowHeight -= $setting.navbar_height;
+		}
+		// PC幅(上記以外)の場合
+		else {
+			navbarCollapseShowHeight -= $setting.navbar_height;
+		}
+	}
+
+	if ($cfg.navbar.useFixed === true) {
+//console.log('useFixed=yes');
+		$('html').css('scrollPaddingTop', $setting.navbar_height + "px");
+		//$('html').css('scrollPaddingTop', $setting.navbar_topPosition + "px");
+	}
+
+	let duration = 0;
+	let easing = "";
+
+	if (_animate === true) {
+		animate = true;
+		if ($cfg.navbar.useFixed !== true) {
+			position += $setting.navbar_height;
+		}
+	}
+	else if ($cfg.root.scrollBehavior === false && $cfg.animate.use === true) {
+		animate = true;
+		duration = $cfg.animate.duration;
+		easing = $cfg.animate.easing;
+	}
+
+	if (navbarCollapseShowHeight > 0) {
+		// 座標調整
+		position -= navbarCollapseShowHeight;
+	}
+
+//animate = true;
+
+//console.log('animate=' + animate + '; position=' + position + '; scrollPaddingTop=' + $('html').css('scrollPaddingTop'));
+
+  // 取得した座標へスクロール
+	if (animate === true) {
+		if (position >= 0) {
+			//jj_positionScrollExecute(position, $cfg.animate.duration, $cfg.animate.easing);
+			jj_positionScrollExecute(position, duration, easing);
+		}
+	}
+
+
+//console.log( 'scrollPaddingTop=' + $('html').css('scrollPaddingTop') );
+
+}
+
+
+/**
+ * 指定の位置(#ID)へスクロール実行
+ * @param number _position ポジション 例:0
+ * @param number _duration アニメーションの再生時間 例:400
+ * @param string _easing アニメーションの動き 例:"swing"
+ */
+function jj_positionScrollExecute(_position = null, _duration = 0, _easing = "") {
+  // 数値型以外は続行しない
+	if (typeof(_position) != "number") return false;
+
+	// 再生速度 初期値
+	if (typeof(_duration) != "number") {
+		_duration = 400;
+	}
+
+	// 再生速度 初期値
+	if (_easing == "" || typeof(_easing) != "string") {
+		_easing = "swing";
+	}
+
+//console.log( '_duration=' + _duration + '; _easing=' + _easing);
+
+  // 取得した座標へスクロール
+  if (_position >= 0) {
+    $('html, body').animate({scrollTop: _position}, _duration, _easing, function(){
+
+//console.log("スクロール終了");
+
+    });
+	}
+
+}
 
 
 /**
@@ -269,19 +433,12 @@ function jj_navbarCollapseShowHeight() {
 }
 
 
-
-
 /**
  * スマホ幅 判定
  * @return boolean true:スマホ幅の場合 fale:スマホ幅以外の場
  */
 function isSpWidth() {
-
-//console.log( 'window.innerWidth=' + window.innerWidth + '; .collapse-display=' + $('.navbar-collapse').css('display'));
-
-// collapseSelector
   //if (window.innerWidth < 992) {
-  //if ($('.navbar-collapse').css('display') == "block") {
   if ($($setting.navbar_collapseSelector).css('display') == "block") {
     return true;
   }
@@ -351,104 +508,11 @@ function jj_get_cfg_meta() {
 }
 
 
-
-/**
- * 指定の位置(#ID)へスクロール
- * @param string _id 例:#works
- */
-function jj_positionScroll(_id = null) {
-	if ( ! _id) return false;
-
-	let position = null;
-
-
-let _scroll = false;
-
-if ($setting.scrollBbehavior) {
-	_scroll = true;
-}
-
-  // ハッシュ(#)だけの場合は 0 のポジション
-	if (_id == "#") {
-		position = 0;
-	}
-  // 要素が実際に存在するか確認
-  else if ($(_id).length) {
-    // 要素の画面上部からの座標(px)を取得
-    position = $(_id).offset().top;
-
-//console.log("座標: " + targetPosition + "px");
-
-    // 固定ナビバーの高さ分を調整
-    if ($setting.navbar_height > 0) {
-      position -= $setting.navbar_height;
-    }
-
-//console.log("座標: " + position + "px");
-
-  }
-
-//console.log('position=' + position);
-
-
-		let navbarCollapseShowHeight = 0;
-		// スマホ幅＆ナビバー非固定位置の場合
-		if (isSpWidth() == true && isNavbarFixed() == false) {
-			navbarCollapseShowHeight = jj_navbarCollapseShowHeight();
-		}
-
-
-	if (_scroll) {
-console.log('scroll');
-  // 取得した座標へスクロール
-  if (position >= 0) {
-		/*
-		// スマホ幅＆ナビバー非固定位置の場合
-		if (isSpWidth() == true && isNavbarFixed() == false) {
-			position -= jj_navbarCollapseShowHeight();
-		}
-		*/
-
-		position -= navbarCollapseShowHeight;
-
-		// スクロールの速度
-		let speed = _scroll == true ? 300 : 0;
-
-		jj_positionScrollExecute(position, speed);
-
-	}
-
-//console.log( 'scrollPaddingTop=' + $('html').css('scrollPaddingTop') );
-
-}
-}
-
-
-/**
- * 指定の位置(#ID)へスクロール実行
- * @param number _position 例:0
- */
-function jj_positionScrollExecute(_position = null, _speed = 300) {
-  // 数値型以外は続行しない
-	if (typeof(_position) != "number") return false;
-
-  // 取得した座標へスクロール
-  if (_position >= 0) {
-    $('html, body').animate({scrollTop: _position}, _speed, function(){
-    
-console.log("スクロール終了");
-
-    });
-	}
-
-}
-
-
 /**
  * ナビバー 固定化
  */
 function jj_navbarFixed() {
-  if ($cfg.navbar.useFixed !== "true") return false;
+  if ($cfg.navbar.useFixed !== true) return false;
 
   if (($cfg.navbar.minWidth == 0 || ($cfg.navbar.minWidth > 0 && $($setting.navbar_selector).outerWidth() > $cfg.navbar.minWidth)) && $setting.windowY > $setting.navbar_topPosition) {
     $($setting.navbar_selector).addClass('fixed-top');
