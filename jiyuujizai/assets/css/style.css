@@ -1,3 +1,4 @@
+@charset "UTF-8";
 
 /**
  * CSS変数
@@ -76,34 +77,28 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 85vh;
+  min-height: 50vh;
   text-align: center;
-  background: no-repeat center top / 100% url(../img/mv.jpg);
-}
+  /*background-color: #fff;*/
+  background: no-repeat center top / 100% url(../img/mv.png);
 
-#jj-main .mv-container {
-  padding: 0 40px;
 }
 
 #jj-main .mv-title {
   font-size: 60px;
   font-weight: bold;
   line-height: 1.2;
+  padding-top: 20px;
   margin-bottom: 5px;
   letter-spacing: .1em;
 }
 
 #jj-main .mv-subtitle {
-  font-size: 20px;
+  font-size: 30px;
   font-weight: bold;
   line-height: 1;
   margin-bottom: 40px;
   letter-spacing: .08em;
-}
-
-#jj-main .mv-text {
-  font-size: 16px;
-  line-height: 1.8;
 }
 
 
